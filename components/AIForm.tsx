@@ -14,6 +14,12 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
     if (!input.trim() || cooldown > 0) return;
     onGenerate(input);
   };
+  
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -26,6 +32,8 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
             <h3 className="text-xl font-black text-black uppercase">Kiến trúc sư AI</h3>
             <p className="text-black font-medium text-sm mt-1">
               Nhập ý tưởng thô sơ, AI sẽ tự động viết thành kịch bản video chi tiết chuẩn Veo 3.
+              <br/>
+              <span className="text-xs opacity-75">(Phím tắt: Ctrl + Enter để tạo)</span>
             </p>
           </div>
         </div>
@@ -34,6 +42,7 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Ví dụ: Hai chiến binh đang đấu kiếm trong rừng tre dưới mưa..."
             className="w-full h-40 bg-white border-2 border-black p-4 text-black placeholder-gray-400 focus:outline-none focus:shadow-neo-sm focus:bg-yellow-50 text-lg font-medium resize-none"
           />
