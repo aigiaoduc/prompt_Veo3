@@ -7,6 +7,11 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
  * Generates an optimized prompt using Google GenAI.
  */
 export const generateOptimizedPrompt = async (userInput: string): Promise<string> => {
+  // Kiểm tra xem API Key đã được inject từ vite.config.ts chưa
+  if (!process.env.API_KEY) {
+    throw new Error("Chưa cấu hình API Key. Vui lòng thêm biến môi trường API_KEY trong phần Settings của Vercel.");
+  }
+
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const maxRetries = 3;
 

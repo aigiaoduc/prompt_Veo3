@@ -7,7 +7,8 @@ import PromptDisplay from './components/PromptDisplay';
 import { Wifi, WifiOff, Video, Facebook, Users, Coffee } from 'lucide-react';
 
 const App: React.FC = () => {
-  const [mode, setMode] = useState<AppMode>('offline');
+  // Mặc định vào chế độ AI để tối ưu trải nghiệm "chỉ cần nhập ý tưởng"
+  const [mode, setMode] = useState<AppMode>('ai');
   const [generatedPrompt, setGeneratedPrompt] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [offlineOptions, setOfflineOptions] = useState<PromptOptions>(DEFAULT_OPTIONS);
@@ -123,114 +124,4 @@ const App: React.FC = () => {
               Veo 3 <span className="text-blue-600">Architect</span>
             </h1>
           </div>
-          <p className="text-black font-medium text-lg max-w-lg mx-auto bg-neo-yellow border-2 border-black p-2 shadow-neo-sm rotate-1 mb-8">
-            Công cụ tạo Prompt chuẩn Google Veo 3.1
-          </p>
-
-          {/* Social & Support Links - Moved Here */}
-          <div className="flex justify-center gap-6 flex-wrap relative z-20">
-                {/* Facebook Profile */}
-                <a 
-                    href="https://www.facebook.com/tran.hong.quan.216221/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex flex-col items-center gap-2 decoration-0"
-                >
-                    <div className="w-12 h-12 bg-white border-2 border-black shadow-neo flex items-center justify-center transition-transform group-hover:-translate-y-1 group-hover:shadow-neo-lg">
-                        <Facebook size={24} className="text-blue-600" />
-                    </div>
-                    <span className="text-[10px] md:text-xs font-black uppercase bg-neo-blue px-2 py-1 border-2 border-black shadow-neo-sm transform -rotate-2 group-hover:rotate-0 transition-transform">
-                        Facebook Admin
-                    </span>
-                </a>
-
-                {/* Facebook Group */}
-                <a 
-                    href="https://www.facebook.com/groups/1390746932674995"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex flex-col items-center gap-2 decoration-0"
-                >
-                    <div className="w-12 h-12 bg-white border-2 border-black shadow-neo flex items-center justify-center transition-transform group-hover:-translate-y-1 group-hover:shadow-neo-lg">
-                        <Users size={24} className="text-black" />
-                    </div>
-                    <span className="text-[10px] md:text-xs font-black uppercase bg-neo-purple px-2 py-1 border-2 border-black shadow-neo-sm transform rotate-2 group-hover:rotate-0 transition-transform">
-                        Cộng đồng AI
-                    </span>
-                </a>
-
-                {/* Support Cafe */}
-                <a 
-                    href="https://ung-ho-tac-gia.netlify.app/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex flex-col items-center gap-2 decoration-0"
-                >
-                    <div className="w-12 h-12 bg-white border-2 border-black shadow-neo flex items-center justify-center transition-transform group-hover:-translate-y-1 group-hover:shadow-neo-lg">
-                        <Coffee size={24} className="text-orange-600" />
-                    </div>
-                    <span className="text-[10px] md:text-xs font-black uppercase bg-neo-yellow px-2 py-1 border-2 border-black shadow-neo-sm transform -rotate-1 group-hover:rotate-0 transition-transform">
-                        Ủng hộ Cafe
-                    </span>
-                </a>
-          </div>
-        </header>
-
-        {/* Mode Toggle - Neo Brutalist Buttons */}
-        <div className="flex justify-center mb-10 gap-4">
-          <button
-            onClick={() => setMode('offline')}
-            className={`flex items-center gap-2 px-6 py-3 border-2 border-black font-bold text-lg transition-all duration-200 
-              ${mode === 'offline' 
-                ? 'bg-neo-blue shadow-neo translate-x-[-2px] translate-y-[-2px]' 
-                : 'bg-white hover:bg-gray-100 shadow-none text-gray-500'
-              }`}
-          >
-            <WifiOff size={24} />
-            <span className="hidden sm:inline">Thủ Công (Offline)</span>
-          </button>
-
-          <button
-            onClick={() => setMode('ai')}
-            className={`flex items-center gap-2 px-6 py-3 border-2 border-black font-bold text-lg transition-all duration-200
-              ${mode === 'ai' 
-                ? 'bg-neo-pink shadow-neo translate-x-[-2px] translate-y-[-2px]' 
-                : 'bg-white hover:bg-gray-100 shadow-none text-gray-500'
-              }`}
-          >
-            <Wifi size={24} />
-            <span className="hidden sm:inline">AI Nâng Cao</span>
-          </button>
-        </div>
-
-        {/* Main Content Area */}
-        <main className="transition-all duration-300">
-          {mode === 'offline' ? (
-            <OfflineForm 
-              options={offlineOptions} 
-              setOptions={setOfflineOptions} 
-              onGenerate={generateOfflinePrompt} 
-            />
-          ) : (
-            <AIForm 
-              onGenerate={handleAIGenerate} 
-              isGenerating={isGenerating}
-              cooldown={cooldown}
-            />
-          )}
-
-          <PromptDisplay prompt={generatedPrompt} />
-        </main>
-
-        {/* Footer */}
-        <footer className="mt-20 pt-10 border-t-2 border-black border-dashed">
-            <p className="text-center text-xs font-bold opacity-60 uppercase tracking-widest">
-                © 2024 Veo 3 Architect. Built for creators.
-            </p>
-        </footer>
-      </div>
-    </div>
-  );
-};
-
-export default App;
+          <p className="text-
