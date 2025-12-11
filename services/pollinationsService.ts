@@ -1,43 +1,47 @@
-import { GoogleGenAI } from "@google/genai";
-import { VEO_SYSTEM_PROMPT } from '../constants';
-
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+import { VEO_SYSTEM_PROMPT, POLLINATIONS_MODELS } from '../constants';
 
 /**
- * Generates an optimized prompt using Google GenAI.
+ * Generates an optimized prompt using Pollinations.ai (Free Text API).
+ * No API Key required.
  */
 export const generateOptimizedPrompt = async (userInput: string): Promise<string> => {
-  // Kiểm tra xem API Key đã được inject từ vite.config.ts chưa
-  if (!process.env.API_KEY) {
-    throw new Error("Chưa cấu hình API Key. Vui lòng thêm biến môi trường API_KEY trong phần Settings của Vercel.");
-  }
+  // 1. Chuẩn bị prompt: System Prompt + User Input
+  // Pollinations hoạt động tốt nhất khi ngữ cảnh được gửi trực tiếp trong URL
+  const fullPrompt = `${VEO_SYSTEM_PROMPT}\n\nYêu cầu của người dùng: ${userInput}`;
+  
+  // 2. Chọn model: Ưu tiên openai hoặc qwen
+  const model = POLLINATIONS_MODELS[0] || 'openai';
 
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  const maxRetries = 3;
+  // 3. Tạo URL request
+  // Format chuẩn: https://text.pollinations.ai/{prompt}?model={model}
+  // encodeURIComponent là bắt buộc để xử lý các ký tự đặc biệt, xuống dòng, tiếng Việt
+  const url = `https://text.pollinations.ai/${encodeURIComponent(fullPrompt)}?model=${model}&seed=${Math.floor(Math.random() * 1000)}`;
 
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: userInput,
-        config: {
-          systemInstruction: VEO_SYSTEM_PROMPT,
-        },
-      });
-
-      const text = response.text;
-
-      if (text) {
-        return text.trim();
+  try {
+    // 4. Gọi API
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache', // Tránh browser cache kết quả cũ
+        'Pragma': 'no-cache'
       }
-    } catch (error) {
-      console.warn(`GenAI attempt ${i + 1} failed:`, error);
-      if (i < maxRetries - 1) {
-        await delay(1000 * Math.pow(2, i));
-      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Lỗi kết nối AI (${response.status}). Vui lòng thử lại.`);
     }
-  }
 
-  // Fallback error message matching the original application behavior
-  throw new Error("Số lượng người dùng đang quá tải vui lòng thử lại.");
+    const text = await response.text();
+
+    if (!text || text.trim().length === 0) {
+        throw new Error("AI không trả về kết quả nào. Hãy thử lại với mô tả khác.");
+    }
+
+    return text.trim();
+
+  } catch (error: any) {
+    console.error("Pollinations Service Error:", error);
+    // Thông báo lỗi thân thiện
+    throw new Error(error.message || "Hệ thống AI đang bận. Vui lòng thử lại sau giây lát.");
+  }
 };
