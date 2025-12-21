@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { PromptOptions, DEFAULT_OPTIONS, AppMode } from './types';
-import { generateOptimizedPrompt } from './services/pollinationsService';
+import { generateOptimizedPrompt } from './services/aiService';
 import OfflineForm from './components/OfflineForm';
 import AIForm from './components/AIForm';
 import PromptDisplay from './components/PromptDisplay';
@@ -13,7 +14,7 @@ const App: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [offlineOptions, setOfflineOptions] = useState<PromptOptions>(DEFAULT_OPTIONS);
   
-  // Cooldown state for AI generation (60 seconds)
+  // Cooldown state for AI generation
   const [cooldown, setCooldown] = useState(0);
 
   // Timer effect for cooldown
@@ -104,10 +105,10 @@ const App: React.FC = () => {
       setGeneratedPrompt(result);
     } catch (error: any) {
       console.error(error);
-      setGeneratedPrompt(`Lỗi: ${error.message || "Số lượng người dùng đang quá tải vui lòng thử lại."}`);
+      setGeneratedPrompt(`Lỗi: ${error.message || "Máy chủ AI đang bận, vui lòng thử lại sau."}`);
     } finally {
       setIsGenerating(false);
-      setCooldown(60);
+      setCooldown(2);
     }
   };
 
@@ -125,7 +126,7 @@ const App: React.FC = () => {
             </h1>
           </div>
           <p className="text-black font-medium text-lg max-w-lg mx-auto bg-neo-yellow border-2 border-black p-2 shadow-neo-sm rotate-1 mb-8">
-            Công cụ tạo Prompt chuẩn Google Veo 3.1
+            Công cụ tạo Prompt chuẩn Google Veo 3.1 (Powered by Gemini 3)
           </p>
 
           {/* Social & Support Links */}
@@ -197,7 +198,7 @@ const App: React.FC = () => {
               }`}
           >
             <Wifi size={24} />
-            <span className="hidden sm:inline">AI Nâng Cao</span>
+            <span className="hidden sm:inline">AI Nâng Cao (Gemini)</span>
           </button>
         </div>
 
@@ -223,7 +224,7 @@ const App: React.FC = () => {
         {/* Footer */}
         <footer className="mt-20 pt-10 border-t-2 border-black border-dashed">
             <p className="text-center text-xs font-bold opacity-60 uppercase tracking-widest">
-                © 2024 Veo 3 Architect. Built for creators.
+                © 2024 Veo 3 Architect. Powered by Google Gemini.
             </p>
         </footer>
       </div>
