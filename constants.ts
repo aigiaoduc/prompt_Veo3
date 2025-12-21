@@ -70,7 +70,12 @@ export const DIALOGUE_LANGUAGES = [
   { label: "Tiếng Việt (Vietnamese)", value: "Vietnamese" }
 ];
 
-// System Prompt Nâng Cao cho Veo 3 - Tối ưu cho Gemini
+// Cấu hình Groq API
+export const GROQ_API_KEY = "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";
+// Sử dụng model 'groq/compound' theo đúng yêu cầu
+export const GROQ_MODEL = "groq/compound";
+
+// System Prompt Nâng Cao cho Veo 3 - Tối ưu cho model Compound
 export const VEO_SYSTEM_PROMPT = `Bạn là chuyên gia Prompt Engineer cho mô hình Google Veo 3.
 Nhiệm vụ: Chuyển ý tưởng của người dùng thành một kịch bản prompt video chuyên nghiệp, giàu chi tiết hình ảnh và âm thanh.
 

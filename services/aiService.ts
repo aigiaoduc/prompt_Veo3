@@ -1,28 +1,38 @@
 
-import { GoogleGenAI } from "@google/genai";
-import { VEO_SYSTEM_PROMPT } from '../constants';
+import { VEO_SYSTEM_PROMPT, GROQ_API_KEY, GROQ_MODEL } from '../constants';
 
 /**
- * Generates an optimized prompt using Google Gemini API.
- * Uses gemini-3-pro-preview for complex reasoning tasks like prompt engineering.
+ * Generates an optimized prompt using Groq Cloud API via direct fetch.
+ * This removes the dependency on @google/genai which was causing build errors.
  */
 export const generateOptimizedPrompt = async (userInput: string): Promise<string> => {
   try {
-    // Always use new GoogleGenAI({ apiKey: process.env.API_KEY }) to ensure the latest key is used.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    
-    // We use gemini-3-pro-preview for advanced prompt engineering tasks.
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: userInput,
-      config: {
-        systemInstruction: VEO_SYSTEM_PROMPT,
-        temperature: 0.7,
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
       },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          { role: 'system', content: VEO_SYSTEM_PROMPT },
+          { role: 'user', content: userInput }
+        ],
+        temperature: 0.7,
+        max_tokens: 2048,
+        top_p: 1,
+        stream: false
+      })
     });
 
-    // The GenerateContentResponse features a text property that directly returns the string output.
-    const result = response.text;
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error?.message || `Lỗi kết nối Groq (${response.status})`);
+    }
+
+    const data = await response.json();
+    const result = data.choices[0]?.message?.content;
 
     if (!result) {
       throw new Error("AI không trả về kết quả.");
@@ -31,7 +41,7 @@ export const generateOptimizedPrompt = async (userInput: string): Promise<string
     return result.trim();
 
   } catch (error: any) {
-    console.error("Gemini Service Error:", error);
-    throw new Error(error.message || "Không thể kết nối tới máy chủ AI của Google.");
+    console.error("Groq Service Error:", error);
+    throw new Error(error.message || "Không thể kết nối tới máy chủ AI của Groq.");
   }
 };
