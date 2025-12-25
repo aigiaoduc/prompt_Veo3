@@ -1,53 +1,39 @@
 
-import { VEO_SYSTEM_PROMPT, GROQ_MODEL } from '../constants';
+import { GoogleGenAI } from "@google/genai";
+import { VEO_SYSTEM_PROMPT, GEMINI_MODEL } from '../constants';
 
 /**
- * Generates an optimized prompt using Groq API.
+ * Generates an optimized prompt using Google Gemini API.
  */
 export const generateOptimizedPrompt = async (userInput: string): Promise<string> => {
   try {
-    const apiKey = process.env.API_KEY;
-    if (!apiKey) {
-      throw new Error("Không tìm thấy Groq API Key trong môi trường.");
-    }
-
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: [
-          { role: "system", content: VEO_SYSTEM_PROMPT },
-          { role: "user", content: userInput }
-        ],
+    // Initialize the Gemini API client using the API key from process.env.API_KEY.
+    // The key is injected via Vite's define configuration.
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    
+    // Using gemini-3-pro-preview as it is best suited for complex text tasks like prompt engineering.
+    const response = await ai.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: userInput,
+      config: {
+        systemInstruction: VEO_SYSTEM_PROMPT,
         temperature: 0.7,
-        max_tokens: 2048,
-        top_p: 1
-      })
+      },
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error?.message || `Lỗi kết nối Groq (HTTP ${response.status})`);
-    }
-
-    const data = await response.json();
-    const result = data.choices?.[0]?.message?.content;
+    // Access the .text property directly to retrieve the generated string.
+    const result = response.text;
 
     if (!result) {
-      throw new Error("Groq không trả về kết quả.");
+      throw new Error("AI không trả về nội dung.");
     }
 
     return result.trim();
 
   } catch (error: any) {
-    console.error("Groq Service Error:", error);
-    if (error.message?.includes("429")) {
-      throw new Error("Tốc độ yêu cầu quá nhanh. Vui lòng đợi vài giây.");
-    }
-    throw new Error(error.message || "Không thể kết nối tới máy chủ AI của Groq.");
+    console.error("Gemini Service Error:", error);
+    
+    // Propagate errors with a user-friendly message.
+    throw new Error(error.message || "Không thể kết nối tới máy chủ AI.");
   }
 };

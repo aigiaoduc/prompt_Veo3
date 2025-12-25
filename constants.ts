@@ -1,4 +1,5 @@
 
+
 // Danh sách cho Trình tạo mẫu Offline (Giao diện Tiếng Việt)
 export const STYLES = [
   "Điện ảnh (Cinematic)",
@@ -70,8 +71,8 @@ export const DIALOGUE_LANGUAGES = [
   { label: "Tiếng Việt (Vietnamese)", value: "Vietnamese" }
 ];
 
-// Sử dụng model Groq Compound theo yêu cầu
-export const GROQ_MODEL = "groq/compound";
+// Sử dụng model Gemini 3 Pro thay vì Groq để có kết quả chất lượng cao nhất
+export const GEMINI_MODEL = "gemini-3-pro-preview";
 
 // System Prompt Nâng Cao cho Veo 3
 export const VEO_SYSTEM_PROMPT = `Bạn là chuyên gia Prompt Engineer cho mô hình Google Veo 3.
