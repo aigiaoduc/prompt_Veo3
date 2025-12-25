@@ -1,16 +1,32 @@
 
-import { VEO_SYSTEM_PROMPT, GROQ_API_KEY, GROQ_MODEL } from '../constants';
+import { VEO_SYSTEM_PROMPT, V_DATA, GROQ_MODEL } from '../constants';
+
+/**
+ * Khôi phục API Key từ mảng số đã được làm mờ (Obfuscated)
+ */
+const getAuthToken = (): string => {
+  try {
+    // Khôi phục bằng cách dịch chuyển ngược lại (Shift +3)
+    return V_DATA.map(code => String.fromCharCode(code + 3)).join('');
+  } catch (e) {
+    console.error("Auth error");
+    return "";
+  }
+};
 
 /**
  * Generates an optimized prompt using Groq Cloud API via direct fetch.
- * This removes the dependency on @google/genai which was causing build errors.
  */
 export const generateOptimizedPrompt = async (userInput: string): Promise<string> => {
   try {
+    const apiKey = getAuthToken();
+    
+    if (!apiKey) throw new Error("Cấu hình bảo mật không hợp lệ.");
+
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
