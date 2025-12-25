@@ -1,6 +1,6 @@
 
 {
   "name": "Kiến trúc sư Prompt Veo 3",
-  "description": "Công cụ chuyên nghiệp giúp tạo prompt chuẩn cho mô hình tạo video Google Veo 3, sử dụng sức mạnh trí tuệ nhân tạo của Groq Compound.",
+  "description": "Công cụ chuyên nghiệp giúp tạo prompt chuẩn cho mô hình video Google Veo 3, sử dụng trí tuệ nhân tạo Groq/Compound.",
   "requestFramePermissions": []
 }

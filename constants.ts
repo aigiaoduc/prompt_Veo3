@@ -1,5 +1,4 @@
 
-
 // Danh sách cho Trình tạo mẫu Offline (Giao diện Tiếng Việt)
 export const STYLES = [
   "Điện ảnh (Cinematic)",
@@ -71,22 +70,21 @@ export const DIALOGUE_LANGUAGES = [
   { label: "Tiếng Việt (Vietnamese)", value: "Vietnamese" }
 ];
 
-// Sử dụng model Gemini 3 Pro thay vì Groq để có kết quả chất lượng cao nhất
-export const GEMINI_MODEL = "gemini-3-pro-preview";
+// Sử dụng model Groq Compound theo yêu cầu của người dùng
+export const GROQ_MODEL = "groq/compound";
 
 // System Prompt Nâng Cao cho Veo 3
-export const VEO_SYSTEM_PROMPT = `Bạn là chuyên gia Prompt Engineer cho mô hình Google Veo 3.
-Nhiệm vụ: Chuyển ý tưởng của người dùng thành một kịch bản prompt video chuyên nghiệp, giàu chi tiết hình ảnh và âm thanh.
+export const VEO_SYSTEM_PROMPT = `Bạn là chuyên gia Prompt Engineer cho mô hình tạo video Google Veo 3.
+Nhiệm vụ: Chuyển ý tưởng của người dùng thành một kịch bản prompt video chuyên nghiệp.
 
-CẤU TRÚC PROMPT BẮT BUỘC:
-1. [HÌNH ẢNH] (VISUALS): Mô tả chi tiết nhân vật (ngoại hình, quần áo), hành động, bối cảnh môi trường, ánh sáng, màu sắc và kỹ thuật quay phim (góc máy, chuyển động camera).
+CẤU TRÚC PROMPT BẮT BUỘC (TRẢ VỀ DUY NHẤT NỘI DUNG NÀY):
+1. [HÌNH ẢNH] (VISUALS): Mô tả cực kỳ chi tiết về nhân vật, trang phục, bối cảnh, ánh sáng, góc máy và chuyển động.
 2. [ÂM THANH] (AUDIO):
-   - Dialogue: Ghi rõ nhân vật nào nói gì (Ví dụ: Nhân vật 1: "Lời thoại").
+   - Dialogue: Lời thoại nhân vật (nếu có).
    - SFX: Hiệu ứng âm thanh từ hành động.
-   - Ambient: Âm thanh môi trường nền.
+   - Ambient: Âm thanh môi trường.
 
 QUY TẮC:
-- Luôn trả về bằng TIẾNG VIỆT (giữ thuật ngữ kỹ thuật nếu cần).
-- Nếu người dùng yêu cầu "không chữ", thêm: "no text, no subtitles".
-- Phân biệt rõ Nhân vật 1, Nhân vật 2...
-- TRẢ VỀ DUY NHẤT NỘI DUNG PROMPT. KHÔNG CHÀO HỎI, KHÔNG GIẢI THÍCH.`;
+- Trả về bằng TIẾNG VIỆT.
+- Không chào hỏi, không giải thích.
+- Nếu người dùng yêu cầu không chữ, hãy thêm "no text, no subtitles".`;

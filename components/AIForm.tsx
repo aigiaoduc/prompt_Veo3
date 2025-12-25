@@ -30,9 +30,9 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
             <BrainCircuit className="w-8 h-8 text-black" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-black uppercase">Kiến trúc sư AI Gemini</h3>
+            <h3 className="text-xl font-black text-black uppercase">Kiến trúc sư AI Groq</h3>
             <p className="text-black font-medium text-sm mt-1">
-              Nhập ý tưởng thô sơ, Gemini 3 Pro sẽ tự động viết thành kịch bản video chi tiết chuẩn Veo 3.
+              Nhập ý tưởng thô sơ, Groq/Compound sẽ tự động viết thành kịch bản video chi tiết chuẩn Veo 3.
               <br/>
               <span className="text-xs opacity-75">(Phím tắt: Ctrl + Enter để tạo)</span>
             </p>
@@ -73,7 +73,7 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
         ) : (
           <>
             <Sparkles className="w-6 h-6" />
-            Tạo Prompt với Gemini
+            Tạo Prompt với Groq
           </>
         )}
       </button>

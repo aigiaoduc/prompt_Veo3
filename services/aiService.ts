@@ -1,39 +1,51 @@
 
-import { GoogleGenAI } from "@google/genai";
-import { VEO_SYSTEM_PROMPT, GEMINI_MODEL } from '../constants';
+import { VEO_SYSTEM_PROMPT, GROQ_MODEL } from '../constants';
 
 /**
- * Generates an optimized prompt using Google Gemini API.
+ * Generates an optimized prompt using Groq API via Fetch.
+ * This avoids external SDK dependencies and fixes build errors.
  */
 export const generateOptimizedPrompt = async (userInput: string): Promise<string> => {
   try {
-    // Initialize the Gemini API client using the API key from process.env.API_KEY.
-    // The key is injected via Vite's define configuration.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = process.env.API_KEY;
     
-    // Using gemini-3-pro-preview as it is best suited for complex text tasks like prompt engineering.
-    const response = await ai.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: userInput,
-      config: {
-        systemInstruction: VEO_SYSTEM_PROMPT,
-        temperature: 0.7,
+    if (!apiKey || apiKey === "undefined") {
+      throw new Error("API_KEY không được tìm thấy. Hãy thiết lập trong Environment Variables trên Vercel.");
+    }
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
       },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: [
+          { role: "system", content: VEO_SYSTEM_PROMPT },
+          { role: "user", content: userInput }
+        ],
+        temperature: 0.7,
+        max_tokens: 1500
+      })
     });
 
-    // Access the .text property directly to retrieve the generated string.
-    const result = response.text;
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error?.message || `Lỗi API Groq: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const result = data.choices?.[0]?.message?.content;
 
     if (!result) {
-      throw new Error("AI không trả về nội dung.");
+      throw new Error("AI không trả về kết quả.");
     }
 
     return result.trim();
 
   } catch (error: any) {
-    console.error("Gemini Service Error:", error);
-    
-    // Propagate errors with a user-friendly message.
-    throw new Error(error.message || "Không thể kết nối tới máy chủ AI.");
+    console.error("AI Service Error:", error);
+    throw new Error(error.message || "Không thể kết nối tới máy chủ Groq.");
   }
 };

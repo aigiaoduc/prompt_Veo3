@@ -115,7 +115,7 @@ const App: React.FC = () => {
             </h1>
           </div>
           <p className="text-black font-medium text-lg max-w-lg mx-auto bg-neo-yellow border-2 border-black p-2 shadow-neo-sm rotate-1 mb-8">
-            Công cụ tạo Prompt chuẩn Google Veo 3.1 (Powered by Gemini 3 Pro)
+            Công cụ tạo Prompt chuẩn Google Veo 3.1 (Powered by Groq Compound)
           </p>
 
           <div className="flex justify-center gap-6 flex-wrap relative z-20">
@@ -185,7 +185,7 @@ const App: React.FC = () => {
               }`}
           >
             <Wifi size={24} />
-            <span className="hidden sm:inline">AI Nâng Cao (Gemini)</span>
+            <span className="hidden sm:inline">AI Nâng Cao (Groq)</span>
           </button>
         </div>
 
@@ -209,7 +209,7 @@ const App: React.FC = () => {
 
         <footer className="mt-20 pt-10 border-t-2 border-black border-dashed">
             <p className="text-center text-xs font-bold opacity-60 uppercase tracking-widest">
-                © 2024 Veo 3 Architect. Powered by Gemini.
+                © 2024 Veo 3 Architect. Powered by Groq Compound.
             </p>
         </footer>
       </div>
