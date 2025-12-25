@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Sparkles, BrainCircuit, RefreshCw, Clock } from 'lucide-react';
 
@@ -11,7 +12,7 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
   const [input, setInput] = useState('');
 
   const handleSubmit = () => {
-    if (!input.trim() || cooldown > 0) return;
+    if (!input.trim() || isGenerating || cooldown > 0) return;
     onGenerate(input);
   };
   
@@ -29,9 +30,9 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
             <BrainCircuit className="w-8 h-8 text-black" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-black uppercase">Kiến trúc sư AI</h3>
+            <h3 className="text-xl font-black text-black uppercase">Kiến trúc sư AI Groq</h3>
             <p className="text-black font-medium text-sm mt-1">
-              Nhập ý tưởng thô sơ, AI sẽ tự động viết thành kịch bản video chi tiết chuẩn Veo 3.
+              Nhập ý tưởng thô sơ, AI Groq Compound sẽ tự động viết thành kịch bản video chi tiết chuẩn Veo 3.
               <br/>
               <span className="text-xs opacity-75">(Phím tắt: Ctrl + Enter để tạo)</span>
             </p>

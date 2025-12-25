@@ -8,16 +8,13 @@ import PromptDisplay from './components/PromptDisplay';
 import { Wifi, WifiOff, Video, Facebook, Users, Coffee } from 'lucide-react';
 
 const App: React.FC = () => {
-  // Mặc định vào chế độ AI để tối ưu trải nghiệm "chỉ cần nhập ý tưởng"
   const [mode, setMode] = useState<AppMode>('ai');
   const [generatedPrompt, setGeneratedPrompt] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [offlineOptions, setOfflineOptions] = useState<PromptOptions>(DEFAULT_OPTIONS);
   
-  // Cooldown state for AI generation
   const [cooldown, setCooldown] = useState(0);
 
-  // Timer effect for cooldown
   useEffect(() => {
     let interval: any;
     if (cooldown > 0) {
@@ -28,17 +25,14 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [cooldown]);
 
-  // LOGIC TẠO PROMPT OFFLINE
   const generateOfflinePrompt = () => {
     const { style, characters, action, environment, lighting, camera, mood, quality, sfx, ambient, noText } = offlineOptions;
     
-    // 1. Scene Setup
     let promptBuilder = `[HÌNH ẢNH] (VISUALS)\n`;
     promptBuilder += `Phong cách & Bầu không khí: Video mang phong cách ${style || 'Điện ảnh'}. `;
     promptBuilder += `Bối cảnh diễn ra tại ${environment || 'một môi trường chi tiết'}, được chiếu sáng bởi ${lighting || 'ánh sáng tự nhiên'}. `;
     promptBuilder += `Tâm trạng tổng thể là ${mood || 'trung tính'}.\n\n`;
 
-    // 2. Character & Action
     promptBuilder += `Nhân vật & Hành động:\n`;
     if (characters.length > 0) {
         characters.forEach((char, index) => {
@@ -54,11 +48,9 @@ const App: React.FC = () => {
     }
     promptBuilder += `\n\n`;
 
-    // 3. Technical Specs
     promptBuilder += `Điện ảnh (Cinematography): Được quay bằng kỹ thuật ${camera || 'Tĩnh (Static)'}. `;
     promptBuilder += `Chi tiết độ trung thực cao, chất lượng ${quality || '4K'}.\n\n`;
 
-    // 4. AUDIO SECTION
     const hasDialogue = characters.some(c => c.dialogue && c.dialogue.trim() !== "");
     const hasSFX = sfx && sfx.trim() !== "";
     const hasAmbient = ambient && ambient.trim() !== "";
@@ -84,7 +76,6 @@ const App: React.FC = () => {
         promptBuilder += `\n`;
     }
 
-    // 5. NO TEXT
     if (noText) {
         promptBuilder += `[YÊU CẦU KHÁC]\n`;
         promptBuilder += `no text, no subtitles (Không hiển thị văn bản, không phụ đề).\n`;
@@ -93,7 +84,6 @@ const App: React.FC = () => {
     setGeneratedPrompt(promptBuilder);
   };
 
-  // Logic cho chế độ AI
   const handleAIGenerate = async (userInput: string) => {
     if (cooldown > 0) return;
 
@@ -117,7 +107,6 @@ const App: React.FC = () => {
       
       <div className="max-w-4xl mx-auto px-4 py-8 relative z-10">
         
-        {/* Header - Neo Brutalist Style */}
         <header className="mb-10 text-center">
           <div className="inline-flex items-center justify-center p-4 bg-white border-2 border-black shadow-neo mb-6 transform -rotate-1">
             <Video className="w-10 h-10 text-black mr-3" />
@@ -129,7 +118,6 @@ const App: React.FC = () => {
             Công cụ tạo Prompt chuẩn Google Veo 3.1 (Powered by Groq Compound)
           </p>
 
-          {/* Social & Support Links */}
           <div className="flex justify-center gap-6 flex-wrap relative z-20">
                 <a 
                     href="https://www.facebook.com/tran.hong.quan.216221/"
@@ -175,7 +163,6 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        {/* Mode Toggle - Neo Brutalist Buttons */}
         <div className="flex justify-center mb-10 gap-4">
           <button
             onClick={() => setMode('offline')}
@@ -198,11 +185,10 @@ const App: React.FC = () => {
               }`}
           >
             <Wifi size={24} />
-            <span className="hidden sm:inline">AI Nâng Cao (Groq Compound)</span>
+            <span className="hidden sm:inline">AI Nâng Cao (Groq)</span>
           </button>
         </div>
 
-        {/* Main Content Area */}
         <main className="transition-all duration-300">
           {mode === 'offline' ? (
             <OfflineForm 
@@ -221,7 +207,6 @@ const App: React.FC = () => {
           <PromptDisplay prompt={generatedPrompt} />
         </main>
 
-        {/* Footer */}
         <footer className="mt-20 pt-10 border-t-2 border-black border-dashed">
             <p className="text-center text-xs font-bold opacity-60 uppercase tracking-widest">
                 © 2024 Veo 3 Architect. Powered by Groq Compound.

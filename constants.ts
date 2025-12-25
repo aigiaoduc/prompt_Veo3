@@ -70,13 +70,7 @@ export const DIALOGUE_LANGUAGES = [
   { label: "Tiếng Việt (Vietnamese)", value: "Vietnamese" }
 ];
 
-/**
- * Mảng dữ liệu đã được obfuscate (làm mờ) bằng cách dịch chuyển mã ký tự (Shift -3).
- * Điều này ngăn chặn GitHub Secret Scanning phát hiện tiền tố 'gsk_'.
- */
-export const V_DATA = [100, 112, 104, 92, 46, 81, 68, 62, 79, 74, 48, 48, 53, 63, 48, 76, 98, 102, 114, 81, 110, 50, 76, 109, 84, 68, 97, 118, 95, 48, 67, 86, 79, 73, 106, 76, 117, 50, 103, 64, 64, 117, 98, 78, 65, 62, 72, 53, 107, 67, 84, 71, 87, 111, 77, 111];
-
-// Sử dụng model 'groq/compound'
+// Sử dụng model Groq Compound theo yêu cầu
 export const GROQ_MODEL = "groq/compound";
 
 // System Prompt Nâng Cao cho Veo 3

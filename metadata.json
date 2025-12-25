@@ -1,5 +1,6 @@
+
 {
   "name": "Kiến trúc sư Prompt Veo 3",
-  "description": "Công cụ chuyên nghiệp giúp tạo prompt chuẩn cho mô hình tạo video Google Veo 3, bao gồm trình tạo mẫu thủ công và trình tạo nâng cao bằng AI thông qua Pollinations.ai.",
+  "description": "Công cụ chuyên nghiệp giúp tạo prompt chuẩn cho mô hình tạo video Google Veo 3, sử dụng sức mạnh trí tuệ nhân tạo của Groq Compound.",
   "requestFramePermissions": []
 }
