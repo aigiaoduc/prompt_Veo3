@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Sparkles, BrainCircuit, RefreshCw, Clock } from 'lucide-react';
+import { Sparkles, ShieldCheck, RefreshCw, Clock } from 'lucide-react';
 
 interface AIFormProps {
   onGenerate: (input: string) => Promise<void>;
@@ -27,12 +27,12 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
       <div className="bg-neo-purple border-2 border-black p-6 shadow-neo">
         <div className="flex items-start gap-4 mb-4">
           <div className="p-3 bg-white border-2 border-black shadow-neo-sm">
-            <BrainCircuit className="w-8 h-8 text-black" />
+            <ShieldCheck className="w-8 h-8 text-black" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-black uppercase">Kiến trúc sư AI Groq</h3>
+            <h3 className="text-xl font-black text-black uppercase">Kiến trúc sư AI (Secure Core)</h3>
             <p className="text-black font-medium text-sm mt-1">
-              Nhập ý tưởng thô sơ, Groq/Compound sẽ tự động viết thành kịch bản video chi tiết chuẩn Veo 3.
+              Hệ thống AI đã được nhúng khóa bảo mật. Luôn sẵn sàng hoạt động 24/7.
               <br/>
               <span className="text-xs opacity-75">(Phím tắt: Ctrl + Enter để tạo)</span>
             </p>
@@ -44,7 +44,7 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ví dụ: Hai chiến binh đang đấu kiếm trong rừng tre dưới mưa..."
+            placeholder="Ví dụ: Một phi hành gia đang đi bộ trên bề mặt sao hỏa, ánh sáng mặt trời chiếu từ phía sau..."
             className="w-full h-40 bg-white border-2 border-black p-4 text-black placeholder-gray-400 focus:outline-none focus:shadow-neo-sm focus:bg-yellow-50 text-lg font-medium resize-none"
           />
           <Sparkles className="absolute bottom-4 right-4 text-black w-6 h-6 animate-pulse" />
@@ -63,7 +63,7 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
         {isGenerating ? (
           <>
             <RefreshCw className="animate-spin w-6 h-6" />
-            Đang xử lý...
+            Đang giải mã & Tạo...
           </>
         ) : cooldown > 0 ? (
           <>
@@ -73,14 +73,14 @@ const AIForm: React.FC<AIFormProps> = ({ onGenerate, isGenerating, cooldown }) =
         ) : (
           <>
             <Sparkles className="w-6 h-6" />
-            Tạo Prompt với Groq
+            Khởi tạo kịch bản Veo 3
           </>
         )}
       </button>
       
       <div className="flex justify-center gap-2 flex-wrap">
-         {['Nhiều nhân vật', 'Hội thoại', 'Thông số Camera', 'Ánh sáng'].map((tag) => (
-             <span key={tag} className="text-xs font-bold border border-black bg-white px-2 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+         {['Mã hóa 128-bit', 'Zero Config', 'Groq Engine', 'Veo 3.1 Optimized'].map((tag) => (
+             <span key={tag} className="text-[10px] font-bold border border-black bg-white px-2 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase">
                  {tag}
              </span>
          ))}

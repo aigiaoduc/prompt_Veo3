@@ -95,7 +95,7 @@ const App: React.FC = () => {
       setGeneratedPrompt(result);
     } catch (error: any) {
       console.error(error);
-      setGeneratedPrompt(`Lỗi: ${error.message || "Máy chủ AI đang bận, vui lòng thử lại sau."}`);
+      setGeneratedPrompt(`Lỗi: ${error.message || "Máy chủ đang bận, vui lòng thử lại sau."}`);
     } finally {
       setIsGenerating(false);
       setCooldown(2);
@@ -104,9 +104,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen text-slate-900 font-bold selection:bg-neo-pink selection:text-black pb-20">
-      
       <div className="max-w-4xl mx-auto px-4 py-8 relative z-10">
-        
         <header className="mb-10 text-center">
           <div className="inline-flex items-center justify-center p-4 bg-white border-2 border-black shadow-neo mb-6 transform -rotate-1">
             <Video className="w-10 h-10 text-black mr-3" />
@@ -115,7 +113,7 @@ const App: React.FC = () => {
             </h1>
           </div>
           <p className="text-black font-medium text-lg max-w-lg mx-auto bg-neo-yellow border-2 border-black p-2 shadow-neo-sm rotate-1 mb-8">
-            Công cụ tạo Prompt chuẩn Google Veo 3.1 (Powered by Groq Compound)
+            Công cụ tạo Prompt chuẩn Google Veo 3.1 (Hệ thống AI Tự động)
           </p>
 
           <div className="flex justify-center gap-6 flex-wrap relative z-20">
@@ -185,7 +183,7 @@ const App: React.FC = () => {
               }`}
           >
             <Wifi size={24} />
-            <span className="hidden sm:inline">AI Nâng Cao (Groq)</span>
+            <span className="hidden sm:inline">AI Nâng Cao (Always Ready)</span>
           </button>
         </div>
 
@@ -209,7 +207,7 @@ const App: React.FC = () => {
 
         <footer className="mt-20 pt-10 border-t-2 border-black border-dashed">
             <p className="text-center text-xs font-bold opacity-60 uppercase tracking-widest">
-                © 2024 Veo 3 Architect. Powered by Groq Compound.
+                © 2024 Veo 3 Architect. AI System Embedded.
             </p>
         </footer>
       </div>

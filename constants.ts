@@ -70,7 +70,7 @@ export const DIALOGUE_LANGUAGES = [
   { label: "Tiếng Việt (Vietnamese)", value: "Vietnamese" }
 ];
 
-// Sử dụng model Groq Compound theo yêu cầu của người dùng
+// Sử dụng model Groq Compound
 export const GROQ_MODEL = "groq/compound";
 
 // System Prompt Nâng Cao cho Veo 3
